@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse, RawAxiosRequestHeaders } from 'axios';
 
-const apiClient = axios.create({
-  baseURL: 'https://mangaverse-api.p.rapidapi.com/manga/',
+const mangaApiClient = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_MANGA_VERSE_BASE_URL,
   // timeout: 1000,
   headers: {
     'x-rapidapi-key': 'ea49983144msh16122c706114817p1d3108jsn0f5606fc9e99',
@@ -9,27 +9,33 @@ const apiClient = axios.create({
   },
 });
 
-// Add interceptors here
-apiClient.interceptors.request.use(
-  (config) => {
-    console.log('Request:', config);
-    return config;
-  },
-  (error) => {
-    console.error('Request error:', error);
-    return Promise.reject(error);
-  }
-);
+const bookApiClient = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_BOOK_BASE_URL,
+  // timeout: 1000,
+  headers: { accept: 'application/json' },
+});
 
-apiClient.interceptors.response.use(
-  (response) => {
-    console.log('Response:', response);
-    return response;
-  },
-  (error) => {
-    console.error('Response error:', error);
-    return Promise.reject(error);
-  }
-);
+// Use named exports for multiple clients
+export { mangaApiClient, bookApiClient };
+// // Add interceptors here
+// apiClient.interceptors.request.use(
+//   (config) => {
+//     console.log('Request:', config);
+//     return config;
+//   },
+//   (error) => {
+//     console.error('Request error:', error);
+//     return Promise.reject(error);
+//   }
+// );
 
-export default apiClient; // Export the client
+// apiClient.interceptors.response.use(
+//   (response) => {
+//     console.log('Response:', response);
+//     return response;
+//   },
+//   (error) => {
+//     console.error('Response error:', error);
+//     return Promise.reject(error);
+//   }
+// );
