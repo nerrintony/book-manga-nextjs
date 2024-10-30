@@ -1,29 +1,7 @@
-'use client';
-
 import Image from 'next/image';
 import styles from './page.module.css';
-import { useEffect } from 'react';
-import MangeVerseClient from '@/client/mangaverse.client';
-import axios from 'axios';
 
 export default function Home() {
-  useEffect(() => {
-    getBookDetails();
-  }, []);
-  const getBookDetails = async () => {
-    const options = {
-      page: '1',
-      genres: 'Comedy,Fantasy',
-      nsfw: 'true',
-      type: 'all',
-    };
-    try {
-      const response = await MangeVerseClient.getLatestManga(options);
-      console.log(response.data?.data);
-    } catch (e) {
-      console.log(e);
-    }
-  };
 
   return (
     <main className={styles.main}>

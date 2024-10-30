@@ -1,4 +1,4 @@
-import apiClient from './axios.client';
+import { mangaApiClient } from '@/client/axios.client';
 
 interface LatestManga {
   page: string;
@@ -9,7 +9,7 @@ interface LatestManga {
 
 const MangeVerseClient = {
   getLatestManga(data: LatestManga) {
-    return apiClient.get('latest', {
+    return mangaApiClient.get('latest', {
       params: {
         page: data?.page,
         genres: data?.genres,
@@ -20,4 +20,4 @@ const MangeVerseClient = {
   },
 };
 
-export default MangeVerseClient
+export default MangeVerseClient;
