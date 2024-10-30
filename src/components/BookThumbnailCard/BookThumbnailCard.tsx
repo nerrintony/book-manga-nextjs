@@ -1,89 +1,68 @@
-import { Box, ImageList, ImageListItem, ThemeProvider, Typography } from '@mui/material';
-import React, { useEffect } from 'react';
-import axios from 'axios';
+import { Box, Grid2, ImageList, ImageListItem, ThemeProvider, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import logo from '@/components/BookThumbnailCard/123.jpg';
+import { Books, LatestBook } from '@/LatestBookType/LatestBook.type';
 
-const BookThumbnailCard = () => {
-  useEffect(() => {
-    getBookDetails();
-  }, []);
-  const getBookDetails = async () => {
-    const options = {
-      method: 'GET',
-      // url: 'https://api.freeapi.app/api/v1/public/books',
-      url: 'https://mangaverse-api.p.rapidapi.com/manga/latest',
-      // params: {
-      //   page: '1',
-      //   limit: '10',
-      //   inc: 'kind%2Cid%2Cetag%2CvolumeInfo',
-      //   query: 'tech',
-      // },
-      // headers: {
-      //   accept: 'application/json',
-      // },
-      params: {
-        page: '1',
-        genres: 'Comedy,Fantasy',
-        nsfw: 'true',
-        type: 'all',
-      },
-      headers: {
-        'x-rapidapi-key': 'ea49983144msh16122c706114817p1d3108jsn0f5606fc9e99',
-        'x-rapidapi-host': 'mangaverse-api.p.rapidapi.com',
-      },
-    };
-    try {
-      const response = await axios.request(options);
-      console.log(response?.data?.data);
-    } catch (e) {
-      console.log(e);
+interface BookThumbnailCardProps {
+  propsManga?: LatestBook; // Specify the type for propsManga
+  propsBook?: Books;
+}
+
+const BookThumbnailCard: React.FC<BookThumbnailCardProps> = ({ propsManga, propsBook }) => {
+  let imageSrc;
+  if (propsManga) {
+    // Check if propsManga has a thumbnail
+    imageSrc = typeof propsManga.thumb === 'string' ? propsManga.thumb : logo.src;
+  } else if (propsBook) {
+    // Check if propsBook has an image link (modify as necessary)
+    imageSrc = propsBook.volumeInfo.imageLinks?.thumbnail || logo.src; // Use logo.src if no thumbnail
+  } else {
+    imageSrc = logo.src; // Fallback to default logo if neither prop is provided
+  }
+
+  const handleBookClick = () => {
+    if (propsBook) {
+      console.log(propsBook, 'wwwwwwwwwwwwwwwwwwwwwwwwww');
     }
   };
-
   return (
     <React.Fragment>
-      <ThemeProvider
-        theme={{
-          palette: {
-            primary: {
-              main: '#007FFF',
-              dark: '#0066CC',
-            },
+      <Box
+        onClick={() => handleBookClick()}
+        sx={{
+          width: 300,
+          height: 400,
+          borderRadius: 3,
+          bgcolor: '#acdedf',
+          '&:hover': {
+            bgcolor: '#ccdedf',
           },
         }}
       >
-        <Box
+        <ImageList
           sx={{
             width: 300,
-            height: 400,
-            borderRadius: 3,
-            bgcolor: '#acdedf',
-            '&:hover': {
-              bgcolor: '#ccdedf',
-            },
+            height: 250,
+            display: 'flex',
+            justifyContent: 'center',
           }}
+          variant="quilted"
+          cols={4}
+          rowHeight={100}
         >
-          <ImageList
-            sx={{
-              width: 300,
-              height: 250,
-              display: 'flex',
-              justifyContent: 'center',
-            }}
-            variant="quilted"
-            cols={4}
-            rowHeight={100}
-          >
-            <ImageListItem sx={{ p: 2 }} cols={1} rows={1}>
-              <Image src={logo} width={260} height={200} alt="11" style={{ objectFit: 'none' }} />
-            </ImageListItem>
-          </ImageList>
-          <Box component="div" sx={{ ml: 3, display: 'flex', color: '#fa2a1a', fontWeight: 800 }}>
-            inline
-          </Box>
-        </Box>
-      </ThemeProvider>
+          <ImageListItem sx={{ p: 2 }} cols={1} rows={1}>
+            <img
+              src={imageSrc} // Simplified conditional rendering
+              alt="Book Cover"
+              style={{ width: '260px', height: '200px', objectFit: 'contain' }} // Adjust width here
+            />
+          </ImageListItem>
+        </ImageList>
+        <Typography sx={{ ml: 3, display: 'flex', color: '#fa2a1a', fontWeight: 800 }}>
+          {propsManga ? propsManga?.title : propsBook?.volumeInfo?.title}
+        </Typography>
+      </Box>
     </React.Fragment>
   );
 };
