@@ -7,7 +7,7 @@ import NavBar from '@/components/NavBar/NavBar';
 import BookThumbnailCard from '@/components/BookThumbnailCard/BookThumbnailCard';
 import React, { useEffect, useState } from 'react';
 import MangeVerseClient from '@/client/mangaverse.client';
-import { LatestBook } from '@/app/LatestBookType/LatestBook.type';
+import { LatestBook } from '@/LatestBookType/LatestBook.type';
 
 const Manga = () => {
   const [latestManga, setLatestManga] = useState<LatestBook[]>([]);

@@ -7,7 +7,7 @@ import NavBar from '@/components/NavBar/NavBar';
 import BookThumbnailCard from '@/components/BookThumbnailCard/BookThumbnailCard';
 import React, { useEffect, useState } from 'react';
 import BookClient from '@/client/book.client';
-import { Books } from '@/app/LatestBookType/LatestBook.type';
+import { Books } from '@/LatestBookType/LatestBook.type';
 import Loader from '@/components/common/Loader/Loader';
 
 var skip = '1';
@@ -30,7 +30,7 @@ const Book = () => {
     };
 
     try {
-      const response = await BookClient.getLatestManga(options);
+      const response = await BookClient.getLatestBook(options);
       if (response?.data?.success) {
         setLoader(false);
         setLatestBook(latestBook.concat(response?.data?.data?.data));
@@ -45,11 +45,11 @@ const Book = () => {
       <CssBaseline />
       <NavBar />
       <Container maxWidth={'xl'}>
-        <Box sx={{ flexGrow: 1, mt: 3 }}>
+        <Box sx={{ mt: 3, marginLeft:'6%' }}>
           {loader ? (
             <Loader />
           ) : (
-            <Grid2 container spacing={4}>
+            <Grid2 container gap={4}>
               {latestBook?.map((book, index) => (
                 <React.Fragment key={book.id}>
                   <BookThumbnailCard propsBook={book} />

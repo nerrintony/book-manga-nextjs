@@ -8,7 +8,7 @@ interface LatestBook {
 }
 
 const BookClient = {
-  getLatestManga(data: LatestBook) {
+  getLatestBook(data: LatestBook) {
     return bookApiClient.get('books', {
       params: {
         page: data?.page,
