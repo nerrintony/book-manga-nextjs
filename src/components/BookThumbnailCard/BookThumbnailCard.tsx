@@ -2,7 +2,7 @@ import { Box, Grid2, ImageList, ImageListItem, ThemeProvider, Typography } from 
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import logo from '@/components/BookThumbnailCard/123.jpg';
-import { Books, LatestBook } from '@/app/LatestBookType/LatestBook.type';
+import { Books, LatestBook } from '@/LatestBookType/LatestBook.type';
 
 interface BookThumbnailCardProps {
   propsManga?: LatestBook; // Specify the type for propsManga
@@ -20,9 +20,16 @@ const BookThumbnailCard: React.FC<BookThumbnailCardProps> = ({ propsManga, props
   } else {
     imageSrc = logo.src; // Fallback to default logo if neither prop is provided
   }
+
+  const handleBookClick = () => {
+    if (propsBook) {
+      console.log(propsBook, 'wwwwwwwwwwwwwwwwwwwwwwwwww');
+    }
+  };
   return (
     <React.Fragment>
       <Box
+        onClick={() => handleBookClick()}
         sx={{
           width: 300,
           height: 400,
