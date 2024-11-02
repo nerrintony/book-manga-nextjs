@@ -1,9 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
-import counterReducer from './slice';
+import counterReducer from './counterSlice';
+import bookReducer from './bookDetailsSlice';
+import navReducer from './navSlice';
 
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
+    book: bookReducer,
+    nav: navReducer,
   },
 });
 

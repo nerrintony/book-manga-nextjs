@@ -1,15 +1,16 @@
 export type LatestBook = {
   id: string;
   title: string;
-  sub_title: string;
+  sub_title?: string;
   status: string;
   thumb?: string;
-  summary: string;
-  authors: [string];
-  genres: [string];
-  nsfw: boolean;
-  type: string;
+  summary?: string;
+  authors: string;
+  genres?: string;
+  nsfw?: boolean;
+  type?: string;
   total_chapter: number;
+  description?:string
 };
 
 export type ImageLinks = {
@@ -19,15 +20,14 @@ export type ImageLinks = {
 
 export type VolumeInfo = {
   title: string;
-  description: string;
-  imageLinks: ImageLinks;
+  description?: string;
+  imageLinks?: ImageLinks;
   authors: string;
-  maturityRating: string;
-  language: string;
-  previewLink: string;
-  subtitle: string;
+  maturityRating?: string;
+  language?: string;
+  previewLink?: string;
+  subtitle?: string;
 };
-
 
 export type SearchInfo = {
   textSnippet: string;

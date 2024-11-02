@@ -2,7 +2,10 @@ import { Box, Grid2, ImageList, ImageListItem, ThemeProvider, Typography } from 
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import logo from '@/components/BookThumbnailCard/123.jpg';
-import { Books, LatestBook } from '@/LatestBookType/LatestBook.type';
+import { Books, LatestBook, VolumeInfo } from '@/LatestBookType/LatestBook.type';
+import { useDispatch, useSelector } from 'react-redux';
+import { bookData } from '@/store/bookDetailsSlice';
+import { useRouter } from 'next/navigation';
 
 interface BookThumbnailCardProps {
   propsManga?: LatestBook; // Specify the type for propsManga
@@ -10,6 +13,8 @@ interface BookThumbnailCardProps {
 }
 
 const BookThumbnailCard: React.FC<BookThumbnailCardProps> = ({ propsManga, propsBook }) => {
+  const router = useRouter();
+
   let imageSrc;
   if (propsManga) {
     // Check if propsManga has a thumbnail
@@ -20,12 +25,40 @@ const BookThumbnailCard: React.FC<BookThumbnailCardProps> = ({ propsManga, props
   } else {
     imageSrc = logo.src; // Fallback to default logo if neither prop is provided
   }
+  const dispatch = useDispatch();
 
   const handleBookClick = () => {
     if (propsBook) {
-      console.log(propsBook, 'wwwwwwwwwwwwwwwwwwwwwwwwww');
+      let bookInfo: VolumeInfo = {
+        title: propsBook.volumeInfo.title,
+        authors: propsBook.volumeInfo.authors, // Ensure you map correctly based on Books structure
+        description: propsBook.volumeInfo.description,
+        imageLinks: propsBook.volumeInfo.imageLinks,
+        maturityRating: propsBook.volumeInfo.maturityRating,
+        previewLink: propsBook.volumeInfo.previewLink,
+        subtitle: propsBook.volumeInfo.subtitle,
+        // Map any additional properties if necessary
+      };
+
+      dispatch(bookData(bookInfo)); // Dispatch the mapped book info
+      router.push(`/viewBookDetails?title=${propsBook?.volumeInfo.title.slice(0, 10)}`);
+    } else if (propsManga) {
+      let mangaInfo: LatestBook = {
+        id: propsManga.id,
+        title: propsManga.title,
+        authors: propsManga.authors, // Ensure you map correctly based on Books structure
+        description: propsManga.summary,
+        thumb: propsManga.thumb,
+        status: propsManga.status,
+        total_chapter: propsManga.total_chapter,
+        // Map any additional properties if necessary
+      };
+      dispatch(bookData(mangaInfo)); // Dispatch the mapped book info
+
+      router.push(`/mangaDetailsView?id=${mangaInfo.id}`);
     }
   };
+
   return (
     <React.Fragment>
       <Box

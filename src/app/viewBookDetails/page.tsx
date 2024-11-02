@@ -1,5 +1,8 @@
-import React from 'react';
+'use client';
+import React, { useEffect } from 'react';
 import { Container, Typography, Card, CardMedia, CardContent, CardActions, Button, Chip, Box } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store/store';
 
 const BookDetails = () => {
   // Sample book object if data is not passed in
@@ -11,31 +14,35 @@ const BookDetails = () => {
     coverImage: 'https://via.placeholder.com/150', // Replace with actual image URL or path
   };
 
+  const selectedBook = useSelector((state: RootState) => state.book);
+
+  useEffect(() => {
+    console.log(selectedBook, 'aaaaaaaaaaaaaaaaaaa');
+  }, []);
+
   // Use passed-in book or default to sampleBook for demonstration
-  const selectedBook =  sampleBook;
+  // const selectedBook = sampleBook;
 
   return (
-    <Container maxWidth="sm" sx={{ py: 4 }}>
+    <Container maxWidth="lg" sx={{ py: 2, display: 'flex', justifyContent: 'center', alignItems: 'center', height:'90vh' }}>
       <Card>
-        <CardMedia
-          component="img"
-          alt={`${selectedBook.title} cover`}
-          height="350"
-          image={selectedBook.coverImage}
-          title={selectedBook.title}
+        <img
+          src={selectedBook?.book?.imageLinks?.thumbnail} // Simplified conditional rendering
+          alt="Book Cover"
+          style={{ width: '260px', height: '200px', objectFit: 'contain' }} // Adjust width here
         />
         <CardContent>
           <Typography variant="h4" gutterBottom>
             {selectedBook.title}
           </Typography>
           <Typography variant="subtitle1" color="textSecondary" gutterBottom>
-            by {selectedBook.author}
+            by {selectedBook?.book?.authors}
           </Typography>
           <Box my={2}>
-            <Chip label={selectedBook.genre} color="primary" />
+            <Chip label={selectedBook?.book?.maturityRating} color="primary" />
           </Box>
           <Typography variant="body1" paragraph>
-            {selectedBook.description}
+            {selectedBook?.book?.description}
           </Typography>
         </CardContent>
         <CardActions>
