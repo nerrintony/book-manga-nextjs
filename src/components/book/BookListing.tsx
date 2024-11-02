@@ -1,9 +1,7 @@
 'use client';
 
 import { Box, Grid2 } from '@mui/material';
-import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
-import NavBar from '@/components/NavBar/NavBar';
 import BookThumbnailCard from '@/components/BookThumbnailCard/BookThumbnailCard';
 import React, { useEffect, useState } from 'react';
 import BookClient from '@/client/book.client';
@@ -15,16 +13,18 @@ var skip = '1';
 const Book = () => {
   const [latestBook, setLatestBook] = useState<Books[]>([]);
   const [loader, setLoader] = useState(false);
+
   useEffect(() => {
     getBookDetails(skip, 'tech');
   }, []);
+
   const getBookDetails = async (skip: string, text: string) => {
     setLoader(true);
 
     if (skip == '1') latestBook.length = 0;
     const options = {
       page: skip,
-      limit: '8',
+      limit: '10',
       inc: 'volumeInfo',
       query: text,
     };
@@ -40,18 +40,17 @@ const Book = () => {
       console.log(e);
     }
   };
+
   return (
     <React.Fragment>
-      <CssBaseline />
-      <NavBar />
       <Container maxWidth={'xl'}>
-        <Box sx={{ mt: 3, marginLeft:'6%' }}>
+        <Box sx={{ mt: 3, marginLeft: '6%' }}>
           {loader ? (
             <Loader />
           ) : (
             <Grid2 container gap={4}>
               {latestBook?.map((book, index) => (
-                <React.Fragment key={book.id}>
+                <React.Fragment key={index}>
                   <BookThumbnailCard propsBook={book} />
                 </React.Fragment>
               ))}

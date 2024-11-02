@@ -17,28 +17,25 @@ const Manga = () => {
   }, []);
   const getBookDetails = async () => {
     const options = {
-      page: '1',
+      page: '2',
       genres: 'Comedy,Fantasy',
-      nsfw: 'true',
+      nsfw: 'false',
       type: 'all',
     };
     try {
       const response = await MangeVerseClient.getLatestManga(options);
       setLatestManga(response?.data?.data);
-
     } catch (e) {
       console.log(e);
     }
   };
   return (
     <React.Fragment>
-      <CssBaseline />
-      <NavBar />
       <Container maxWidth={'xl'} sx={{ width: '100%' }}>
         <Box sx={{ flexGrow: 1, mt: 3 }}>
           <Grid2 container spacing={4}>
             {latestManga?.map((manga, index) => (
-              <React.Fragment key={manga.id}>
+              <React.Fragment key={index}>
                 <BookThumbnailCard propsManga={manga} />
               </React.Fragment>
             ))}
